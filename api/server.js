@@ -1,17 +1,10 @@
 const express = require('express');
-const cors = require('cors');
-const helmet = require('helmet');
-
-const authRouter = require('./routes/auth-router');
-const userRouter = require('./routes/user-router');
+const middleware = require('./middleware');
+const router = require('./routes');
 
 const server = express();
-server.use(cors());
-server.use(helmet());
-server.use(express.json());
-
-server.use('/auth', authRouter);
-server.use('/api', userRouter);
+middleware(server);
+router(server);
 
 server.use('/', (req, res) => {
   res.json({ message: "Server working." })
