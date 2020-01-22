@@ -7,12 +7,13 @@ function find() {
 
 // findBy
 function findBy(filter) {
-  return db('users').where(filter).select("id", "username");
+  return db('users').where(filter).select("id", "username", "password");
 }
 
 // add
-function add(user) {
-
+async function add(user) {
+  const [id] = await db('users').insert(user);
+  return findBy({ id });
 }
 
 // update
@@ -22,7 +23,7 @@ function update(user, id) {
 
 // remove
 function remove(id) {
-
+  return findBy({ id }).del();
 }
 
 module.exports = {
